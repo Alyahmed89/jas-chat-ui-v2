@@ -41,8 +41,8 @@ export default function ChatPage() {
   }
 
   return (
-    <main className="flex flex-col h-screen bg-gray-950 text-white">
-      <header className="px-6 py-4 border-b border-gray-800 bg-gray-900">
+    <main className="flex flex-col h-screen bg-black text-white">
+      <header className="px-6 py-4 border-b border-gray-700 bg-black">
         <h1 className="text-xl font-bold tracking-tight">JAS</h1>
       </header>
       <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
@@ -64,7 +64,7 @@ export default function ChatPage() {
         )}
         <div ref={bottomRef} />
       </div>
-      <div className="px-4 py-4 border-t border-gray-800 bg-gray-900 flex gap-2">
+      <div className="px-4 py-4 border-t border-gray-700 bg-black flex gap-2">
         <input
           className="flex-1 bg-gray-800 rounded-xl px-4 py-2 text-sm outline-none placeholder-gray-500"
           placeholder="Message JAS..."
