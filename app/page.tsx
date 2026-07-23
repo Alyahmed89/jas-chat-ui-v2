@@ -1,18 +1,22 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<{role:string;text:string}[]>([]);
   const [input, setInput] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const sessionId = useRef<string|null>(null);
   async function send() {
     const text = input.trim();
     if (!text) return;
     setMessages(m => [...m, {role:'user', text}]);
     setInput(''); setLoading(true);
     try {
-      const r = await fetch('https://prolog.anyapp.cfd/chat', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ message: text }) });
+      const body: {message:string; session_id?:string} = { message: text };
+      if (sessionId.current) body.session_id = sessionId.current;
+      const r = await fetch('https://prolog.anyapp.cfd/chat', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
       const d = await r.json();
+      if (d?.session_id) sessionId.current = String(d.session_id);
       const ans = d?.data?.answer ?? d?.answer ?? d?.error ?? '...';
       setMessages(m => [...m, {role:'assistant', text:String(ans)}]);
     } catch (e) {
